@@ -109,8 +109,23 @@
 #include <qprinter.h>
 #include <qregion.h>
 #include <qnetworkrequest.h>
+
 #include <ios>
 #include <fstream>
+#include <string>
+#include <sstream>
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
+#include <iostream>
 
 using namespace WebCore;
 
@@ -302,11 +317,11 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
         std::ofstream log("/tmp/wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
     #endif
 
-    log << "305:fPrintWidth " << std::to_string(fPrintWidth) << std::endl;
-    log << "306:fRootWidth " << std::to_string(fRootWidth) << std::endl;
+    log << "305:fPrintWidth " << patch::to_string(fPrintWidth) << std::endl;
+    log << "306:fRootWidth " << patch::to_string(fRootWidth) << std::endl;
 
     float scale = (float)d->printWidth / (float)root->width();
-    log << "309:scale " << std::to_string(scale) << std::endl;
+    log << "309:scale " << patch::to_string(scale) << std::endl;
 
     QRectF r(const_cast<WebCore::RenderObject *>(ro)->absoluteBoundingBoxRect());
     
@@ -321,10 +336,10 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
             low = m +1;
         else {
             QRectF tr = r.translated(0, -pageRects[m].y());
-            log << "324:QRect X:" << std::to_string(tr.x()) << std::endl;
-            log << "325:QRect Y:" << std::to_string(tr.y()) << std::endl;
-            log << "326:QRect W:" << std::to_string(tr.width()) << std::endl;
-            log << "327:QRect H:" << std::to_string(tr.height()) << std::endl;
+            log << "324:QRect X:" << patch::to_string(tr.x()) << std::endl;
+            log << "325:QRect Y:" << patch::to_string(tr.y()) << std::endl;
+            log << "326:QRect W:" << patch::to_string(tr.width()) << std::endl;
+            log << "327:QRect H:" << patch::to_string(tr.height()) << std::endl;
             return QPair<int, QRectF>(m+1, QRect(tr.x() * scale, tr.y()*scale, tr.width()*scale, tr.height()*scale));
         }
     }
