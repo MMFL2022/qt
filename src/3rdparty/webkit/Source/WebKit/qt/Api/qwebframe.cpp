@@ -310,6 +310,8 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
     //We need the scale factor, because pages are shrinked
     float fPrintWidth = (float)d->printWidth;
     float fRootWidth = (float)root->width();
+
+    float fRootHeight = (float)root->height();
     
     #ifdef Q_OS_WIN32
         std::ofstream log("C:\\TEMP\\wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
@@ -319,6 +321,7 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
 
     log << "305:fPrintWidth " << patch::to_string(fPrintWidth) << std::endl;
     log << "306:fRootWidth " << patch::to_string(fRootWidth) << std::endl;
+    log << "307:fRootHeight " << patch::to_string(fRootHeight) << std::endl;
 
     float scale = (float)d->printWidth / (float)root->width();
     log << "309:scale " << patch::to_string(scale) << std::endl;
