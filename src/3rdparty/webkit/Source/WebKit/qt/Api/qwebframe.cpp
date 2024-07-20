@@ -312,6 +312,11 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
     float fRootWidth = (float)root->width();
 
     float fRootHeight = (float)root->height();
+
+    float fContentWidht = (float)root->contentWidth();
+    float fContentHeight = (float)root->contentHeight();
+    float fClientWidth = (float)root->clientWidth();
+    float fClientHeight = (float)root->clientHeight();
     
     #ifdef Q_OS_WIN32
         std::ofstream log("C:\\TEMP\\wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
@@ -322,6 +327,10 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
     log << "305:fPrintWidth " << patch::to_string(fPrintWidth) << std::endl;
     log << "306:fRootWidth " << patch::to_string(fRootWidth) << std::endl;
     log << "307:fRootHeight " << patch::to_string(fRootHeight) << std::endl;
+    log << "308:fContentWidht " << patch::to_string(fContentWidht) << std::endl;
+    log << "309:fContentHeight " << patch::to_string(fContentHeight) << std::endl;
+    log << "310:fClientWidth " << patch::to_string(fClientWidth) << std::endl;
+    log << "311:fClientHeight " << patch::to_string(fClientHeight) << std::endl;
 
     float scale = (float)d->printWidth / (float)root->width();
     log << "309:scale " << patch::to_string(scale) << std::endl;
