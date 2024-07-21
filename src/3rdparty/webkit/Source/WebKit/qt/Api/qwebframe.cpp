@@ -353,12 +353,6 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
     log << "366:t y " << patch::to_string(t.y()) << std::endl;
     log << "367:t w " << patch::to_string(t.width()) << std::endl;
     log << "368:t h " << patch::to_string(t.height()) << std::endl;
-
-    QRectF u(const_cast<WebCore::RenderObject *>(ro)->viewRect());
-    log << "365:u x " << patch::to_string(u.x()) << std::endl;
-    log << "366:u y " << patch::to_string(u.y()) << std::endl;
-    log << "367:u w " << patch::to_string(u.width()) << std::endl;
-    log << "368:u h " << patch::to_string(u.height()) << std::endl;
     
     int low=0;
     int high=pageRects.size();
