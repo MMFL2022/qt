@@ -318,12 +318,6 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
     float fContentHeight = (float)root->contentHeight();
     float fClientWidth = (float)root->clientWidth();
     float fClientHeight = (float)root->clientHeight();
-
-    QRect boundingRect = d->boundingRect;
-    log << "359:boundingRect x " << patch::to_string(boundingRect.x()) << std::endl;
-    log << "360:boundingRect y " << patch::to_string(boundingRect.y()) << std::endl;
-    log << "361:boundingRect w " << patch::to_string(boundingRect.width()) << std::endl;
-    log << "362:boundingRect h " << patch::to_string(boundingRect.height()) << std::endl;
     
     #ifdef Q_OS_WIN32
         std::ofstream log("C:\\TEMP\\wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
