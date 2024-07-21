@@ -110,23 +110,6 @@
 #include <qregion.h>
 #include <qnetworkrequest.h>
 
-#include <ios>
-#include <fstream>
-#include <string>
-#include <sstream>
-
-namespace patch
-{
-    template < typename T > std::string to_string( const T& n )
-    {
-        std::ostringstream stm ;
-        stm << n ;
-        return stm.str() ;
-    }
-}
-
-#include <iostream>
-
 using namespace WebCore;
 
 // from text/qfont.cpp
@@ -309,50 +292,9 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
 
     WebCore::RenderView *root = toRenderView(d->frame->d->frame->document()->renderer());
     //We need the scale factor, because pages are shrinked
-    float fPrintWidth = (float)d->printWidth;
-    float fRootWidth = (float)root->width();
-
-    float fRootHeight = (float)root->height();
-
-    float fContentWidht = (float)root->contentWidth();
-    float fContentHeight = (float)root->contentHeight();
-    float fClientWidth = (float)root->clientWidth();
-    float fClientHeight = (float)root->clientHeight();
-    
-    #ifdef Q_OS_WIN32
-        std::ofstream log("C:\\TEMP\\wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
-    #else
-        std::ofstream log("/tmp/wkhtml-debug.txt", std::ios_base::app | std::ios_base::out);
-    #endif
-
-    log << "336:fPrintWidth " << patch::to_string(fPrintWidth) << std::endl;
-    log << "337:fRootWidth " << patch::to_string(fRootWidth) << std::endl;
-    log << "338:fRootHeight " << patch::to_string(fRootHeight) << std::endl;
-    log << "339:fContentWidht " << patch::to_string(fContentWidht) << std::endl;
-    log << "340:fContentHeight " << patch::to_string(fContentHeight) << std::endl;
-    log << "341:fClientWidth " << patch::to_string(fClientWidth) << std::endl;
-    log << "342:fClientHeight " << patch::to_string(fClientHeight) << std::endl;
-
     float scale = (float)d->printWidth / (float)root->width();
-    log << "353:scale " << patch::to_string(scale) << std::endl;
 
     QRectF r(const_cast<WebCore::RenderObject *>(ro)->absoluteBoundingBoxRect());
-    log << "359:r x " << patch::to_string(r.x()) << std::endl;
-    log << "360:r y " << patch::to_string(r.y()) << std::endl;
-    log << "361:r w " << patch::to_string(r.width()) << std::endl;
-    log << "362:r h " << patch::to_string(r.height()) << std::endl;
-
-    QRectF s(const_cast<WebCore::RenderObject *>(ro)->absoluteClippedOverflowRect());
-    log << "365:s x " << patch::to_string(s.x()) << std::endl;
-    log << "366:s y " << patch::to_string(s.y()) << std::endl;
-    log << "367:s w " << patch::to_string(s.width()) << std::endl;
-    log << "368:s h " << patch::to_string(s.height()) << std::endl;
-
-    QRectF t(const_cast<WebCore::RenderObject *>(ro)->absoluteOutlineBounds());
-    log << "365:t x " << patch::to_string(t.x()) << std::endl;
-    log << "366:t y " << patch::to_string(t.y()) << std::endl;
-    log << "367:t w " << patch::to_string(t.width()) << std::endl;
-    log << "368:t h " << patch::to_string(t.height()) << std::endl;
     
     int low=0;
     int high=pageRects.size();
@@ -365,10 +307,6 @@ QPair<int, QRectF> QWebPrinter::elementLocation(const QWebElement & e)
             low = m +1;
         else {
             QRectF tr = r.translated(0, -pageRects[m].y());
-            log << "381:QRect X:" << patch::to_string(tr.x()) << std::endl;
-            log << "382:QRect Y:" << patch::to_string(tr.y()) << std::endl;
-            log << "383:QRect W:" << patch::to_string(tr.width()) << std::endl;
-            log << "384:QRect H:" << patch::to_string(tr.height()) << std::endl;
             return QPair<int, QRectF>(m+1, QRect(tr.x() * scale, tr.y()*scale, tr.width()*scale, tr.height()*scale));
         }
     }
